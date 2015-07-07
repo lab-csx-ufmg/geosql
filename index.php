@@ -57,16 +57,18 @@
 		<div id="tabs">
 			<ul class="nav nav-tabs" id="mytab">
 			
-				<!-- Tab para visualização dos dados -->
-				<li class=""><a href="#tab0" data-toggle="tab"> <i
+				<!-- Tab para visualização do esquema -->
+				<li class=" active"><a href="#tab0" data-toggle="tab"> <i
 						class="icon-search glyphicon glyphicon-th-large"></i> ESQUEMA
 				</a></li>
+				
+				<!-- Tab para visulização do esquema -->
 				<li class=""><a href="#tab1" data-toggle="tab"> <i
 						class="glyphicon glyphicon-list"></i> DADOS
 				</a></li>
 
 				<!-- Tab para visualização dos mapas -->
-				<li class="active"><a href="#tab2" data-toggle="tab"> <i
+				<li class="" id="navtab2"><a href="#tab2" data-toggle="tab"> <i
 						class="icon-search glyphicon glyphicon-globe"></i> MAPA
 				</a></li>
 			</ul>
@@ -74,7 +76,7 @@
 		
 		<!-- Aqui temos o que ira conter dentro de cada tab -->
 		<div class="tab-content">
-				<div class="tab-pane" id="tab0">
+				<div class="tab-pane active " id="tab0">
 					<?php include('tab_esquema.php'); ?>
     			</div>
 
@@ -82,7 +84,7 @@
     				<?php include('tab_results.php'); ?>
     			</div>
     			
-				<div class="tab-pane active" id="tab2">
+				<div class="tab-pane  " id="tab2">
 				<div id = "mapa">
 				<!-- <iframe id = "postgref" src = "./visualizacao/geovis.html"></iframe> -->
 				 <?php include ('tab_map.php');?>
@@ -90,6 +92,12 @@
 			
     			</div>
 		</div>
+		
+		<script type="text/javascript">
+		$( "#navtab2" ).click(function() {
+			//document.getElementsByClassName('').style.display ='visible';
+			});
+		</script>
 
 	</div>
 </body>

@@ -1,5 +1,4 @@
  <div class="container-fluid"> 
-
 		<div class="row-fluid">
 			<div class="span12"> 
 			 	<div id="map" class="map"></div> 
@@ -10,7 +9,7 @@
 
 				<div id="conjuntoLegenda">
 					<div id="legenda"></div>
-					<button type="button" class="btn btn-default" id="botaoLegenda">
+					<button type="button" class="btn" id="botaoLegenda">
 						<i class="glyphicon glyphicon-list"></i>
 					</button>
 				</div>

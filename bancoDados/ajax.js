@@ -108,7 +108,7 @@ function tabelas(data) {
 		console.log(g);
 		
 		if (g != null){
-			createVetL();
+			createVetL(k);
 		}
 		
 		

@@ -45,6 +45,7 @@ var myText = function(feature, textRotuloKey, colorText) {
  * @parm colorText : define a cor do texto rotulo de cada feature de uma layer.
  */
 var myStyle = function(colorStroker, colorFill, textRotuloKey, colorText) {
+	console.log(textRotuloKey);
 	return function(feature) {
 		var style = new ol.style.Style({
 			stroke : new ol.style.Stroke({
@@ -211,6 +212,7 @@ map.on('singleclick', function(evt) {
  */
 var  layerAtivos = [];
 var layerAtivosID = [];
+var rotuloLayers =  [];
 //var idl = [];
 /**
  * Funcão que monta a legenda da layer base.
@@ -235,24 +237,81 @@ function montarLegendaLayerbase(cont){
  * Funcão que monta a legenda da layer do tipo vector
  * @param cont o contador dessa layer o a numeração de dela
  */
-function montarLegendaLayerVector(idLayerVis, idLayer, colorStroker, colorFill, VetRotuloKey, titulo){
-	var strhtml = '';
-	strhtml += '<div class = "legendaL ui-state-default" id ="layer' + idLayerVis +'" data-placement="left" title="'+titulo +'">' +
-	'<input id="colorpickerF'+ idLayerVis +'" class="btn form-control"  title= "Cor do Preechimento" onchange="mudarCor('+ idLayerVis+')" value="'+ colorFill+'" type="color"></input>' +
-    '<input id="colorpickerL'+ idLayerVis +'" class="btn form-control lineFillSelec" title= "Cor da Linha" onchange="mudarCor('+ idLayerVis+')" value="'+ colorStroker +'" type="color"></input>'+ geradorMenuDeRotulos(idLayerVis)+
-    '<button type="button" class="btn btn-primary btnV"  title= "Mostra/Esconder Camada"  onclick = "onOffCamadas('+idLayerVis +',' + idLayer + ');"  id = "onOff'+  idLayerVis +
-    '"><i class="glyphicon glyphicon-eye-close" id ="onOfficon' + idLayerVis + '"></i></button>'+
-    '<a download="geo.json" href="bancoDados/bdPersistencia.php?query='+document.getElementById("query").value+'"><button type="button" class="btn btn-default btnV" title= "Download GeoJSON"' + 'id = "dow' + idLayerVis + '">'+
-      '<i class="glyphicon glyphicon-download" ></i>'+'</button></a>'+ 
-    '<button type="button" class="btn btn-default" title= "Excluir Camada"' + 'id = "visb'+ idLayerVis +'" onclick = "desligaLayer(' + idLayerVis +',' + idLayer + ',' +'layer' + idLayerVis +
-      ');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'+'<div class = "rotulolegenda"><h4>'+
-    'Camada ' + idLayerVis + '</h4></div></div>';
+//function montarLegendaLayerVector(idLayerVis, idLayer, colorStroker, colorFill, VetRotuloKey, titulo){
+//	var strhtml = '';
+//	strhtml += '<div class = "legendaL ui-state-default" id ="layer' + idLayerVis +'" data-placement="left" title="'+titulo +'">' +
+//	'<input id="colorpickerF'+ idLayerVis +'" class="btn form-control"  title= "Cor do Preechimento" onchange="mudarCor('+ idLayerVis+')" value="'+ colorFill+'" type="color"></input>' +
+//    '<input id="colorpickerL'+ idLayerVis +'" class="btn form-control lineFillSelec" title= "Cor da Linha" onchange="mudarCor('+ idLayerVis+')" value="'+ colorStroker +'" type="color"></input>'+ geradorMenuDeRotulos(idLayerVis)+
+//    '<button type="button" class="btn btn-primary btnV"  title= "Mostra/Esconder Camada"  onclick = "onOffCamadas('+idLayerVis +',' + idLayer + ');"  id = "onOff'+  idLayerVis +
+//    '"><i class="glyphicon glyphicon-eye-close" id ="onOfficon' + idLayerVis + '"></i></button>'+
+//    '<a download="geo.json" href="bancoDados/bdPersistencia.php?query='+document.getElementById("query").value+'"><button type="button" class="btn btn-default btnV" title= "Download GeoJSON"' + 'id = "dow' + idLayerVis + '">'+
+//      '<i class="glyphicon glyphicon-download" ></i>'+'</button></a>'+ 
+//    '<button type="button" class="btn btn-default" title= "Excluir Camada"' + 'id = "visb'+ idLayerVis +'" onclick = "desligaLayer(' + idLayerVis +',' + idLayer + ',' +'layer' + idLayerVis +
+//      ');"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button>'+'<div class = "rotulolegenda"><h4>'+
+//    'Camada ' + idLayerVis + '</h4></div></div>';
+//	
+//	layerAtivos.push(idLayer);
+//	layerAtivosID["layer" + idLayerVis] = idLayerVis;
+//	//idl["layer" + idLayerVis] = idLayerVis;
+//	$("#legenda").prepend(strhtml);
+//}
+
+function montarLegendaLayerVector(idLayerVis, idLayer, colorStroker, colorFill, VetRotuloKey, consulta){
+	
+	//inssere uma entrada na legenda
+	$("#legenda").prepend('<div class ="legendaL ui-state-default" id ="layer' + idLayerVis +
+			'" data-placement="left" title="'+consulta +'">');
+	
+	//insere um botaão para mudar a cor de preenchimento do mapa
+	$('#layer' + idLayerVis).append ('<input id="colorpickerF'+ idLayerVis +
+			'" class="btn form-control"  title= "Cor do Preechimento" onchange="mudarCor('+
+			idLayerVis+')" value="'+ colorFill+'" type="color"></input>');
+	
+	//insere uma botão para mudar a cor da linha do mapa
+	$('#layer' +  idLayerVis).append('<input id="colorpickerL'+ idLayerVis +
+			'" class="btn form-control lineFillSelec" title= "Cor da Linha" onchange="mudarCor('+ 
+			idLayerVis+')" value="'+ colorStroker +'" type="color"></input>');
+	
+	//insere um menu dropDow para selecionar os rotulos
+	$('#layer' +  idLayerVis).append(geradorMenuDeRotulos(idLayer,idLayerVis, VetRotuloKey));
+	
+	//insere um menu de desligar/ligar uma camada de visualização. 
+	$('#layer' +  idLayerVis).append('<button type="button" class="btn btn-primary btnV"' + 
+			'title= "Mostra/Esconder Camada"  onclick = "onOffCamadas('
+			+idLayerVis +',' + idLayer + ');"  id = "onOff'+  idLayerVis +'">');
+	
+	$('#onOff' +  idLayerVis).append('<i class="glyphicon glyphicon-eye-close" id ="onOfficon' + 
+			idLayerVis + '"></i>');
+	
+	//insere o botão de downLoad Geojson.
+	
+	$('#layer' +  idLayerVis).append('<a download="geo.json"' + 'id = "aDowgeojson' + idLayerVis +
+			'" href="bancoDados/bdPersistencia.php?query='+document.getElementById("query").value+'">');
+	
+	$('#aDowgeojson' + idLayerVis ).append ('<button type="button" class="btn btn-default btnV" title= "Download GeoJSON"'
+			+ 'id = "dow' + idLayerVis + '">');
+	
+	$('#dow' + idLayerVis).append('<i class="glyphicon glyphicon-download" ></i>');
+	
+	//insere o botão de excluir camada
+	$('#layer' +  idLayerVis).append('<button type="button" class="btn btn-default" title= "Excluir Camada"'
+			+ 'id = "visb'+ idLayerVis +'" onclick = "desligaLayer(' + idLayerVis +',' + idLayer + ',' 
+			+'layer' + idLayerVis + ');">');
+	
+	$('#visb' +  idLayerVis).append('<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>');
+	
+	//adiciona o rotulo da camada
+	$('#layer' +  idLayerVis).append('<div class = "rotulolegenda"><h4>'+ 'Camada: ' + idLayer + '</h4></div>');
 	
 	layerAtivos.push(idLayer);
 	layerAtivosID["layer" + idLayerVis] = idLayerVis;
+	
+	rotuloLayers.push(null);
 	//idl["layer" + idLayerVis] = idLayerVis;
-	$("#legenda").prepend(strhtml);
+	//$("#legenda").prepend(strhtml);
 }
+
+
 
 /**
  * funcão que monta uma legenda um conjunto de layers
@@ -271,7 +330,7 @@ function montarLegenda(vetLayers) {
 	//return layerAtivos;
 }
 
-function inserCamada(layerVector, colorStroker, colorFill, textRotuloKey, titulo){
+function inserCamada(layerVector, colorStroker, colorFill, VetRotuloKey, titulo){
 	var tamanho = layerAtivos.length;
 	var arraylays = map.getLayers().getArray();
 	var vetlayrs = arraylays.length;
@@ -280,7 +339,7 @@ function inserCamada(layerVector, colorStroker, colorFill, textRotuloKey, titulo
 	map.addLayer(layerVector);
 	//console.log(vetlayrs);
 	//vetkeys = map.getLayers().item(0).getSource().getFeatures()[0].getKeys();
-	montarLegendaLayerVector(tamanho, vetlayrs, colorStroker, colorFill,textRotuloKey,titulo);	
+	montarLegendaLayerVector(tamanho, vetlayrs, colorStroker, colorFill,VetRotuloKey,titulo);	
 	//console.log(vetlayrs);
 }
 
@@ -304,25 +363,54 @@ function onOffCamadas(idLayerVis, idLayer) {
 function mudarCor(idLayerVis) {
 	var novaCorFill = document.getElementById('colorpickerF' + idLayerVis).value; 
 	var novaCorStrocker = document.getElementById('colorpickerL' + idLayerVis).value; 
-	var novoRotuloKey = null;
+	var novoRotuloKey = rotuloLayers [idLayerVis];
 	var l = layerAtivos[idLayerVis]
 	map.getLayers().getArray()[l].setStyle(myStyle(novaCorStrocker, novaCorFill, novoRotuloKey, "#333"));
 	
 }
 
-function geradorMenuDeRotulos(idLayer) {
-	
-	var strhtml = '<div class="dropdown btnV ">'+
-	'<button id="dLabel" type="button" data-toggle="dropdown" class = "btn btn-default" aria-haspopup="true" aria-expanded="false" title = "Rotulo">'+
-		+'Rotulo</button>'+ 
-		'<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">' + 
-		'<li role="presentation"><a tabindex="-1" role="menuitem">null</a></li>';
-// var c;
-//	for(c = 0; c < vetKey.length; c++ ){
-//		strhtml += '<li role="presentation"><a tabindex="-1" role="menuitem">'+ vetKey[c] + '</a></li>'; 
-//	}
+//function geradorMenuDeRotulos(idLayer) {
 //	
-	return strhtml + '</ul></div>';
+//	var strhtml = '<div class="dropdown btnV ">'+
+//	'<button id="dLabel" type="button" data-toggle="dropdown" class = "btn btn-default" aria-haspopup="true" aria-expanded="false" title = "Rotulo">'+
+//		+'Rotulo</button>'+ 
+//		'<ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">' + 
+//		'<li role="presentation"><a tabindex="-1" role="menuitem">null</a></li>';
+//// var c;
+////	for(c = 0; c < vetKey.length; c++ ){
+////		strhtml += '<li role="presentation"><a tabindex="-1" role="menuitem">'+ vetKey[c] + '</a></li>'; 
+////	}
+////	
+//	return strhtml + '</ul></div>';
+//	//TODO
+//}
+
+function mudarRotulo(idLayerVis, novoRotulo){
+	
+	console.log("mudarotulo" + novoRotulo);
+	rotuloLayers[idLayerVis] = novoRotulo;
+	mudarCor(idLayerVis);
+}
+
+function geradorMenuDeRotulos(idLayer,idLayerVis, VetRotuloKey) {
+	
+	var contElemt = VetRotuloKey.length;
+	var strhtml = '<div class="btn-group btnV">'+
+	 ' <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
+	   + 'Rotulos <span class="caret"></span>'+
+	  '</button>'+
+	  '<ul class="dropdown-menu">';
+	var i = 0;
+	
+	strhtml += '<li><a onclick = "mudarRotulo('+ idLayerVis +', ' + "null" +  ')"><p class="text-danger">NULL</p></a></li>'; 
+	
+	for(i = 0;i<contElemt;i++){
+		strhtml += '<li><a onclick = "mudarRotulo('+ idLayerVis +', ' + "'" +VetRotuloKey[i]+ "'" +')">'+ VetRotuloKey[i]+'</a></li>';
+		
+	}
+	strhtml = strhtml +  '</ul>'+ '</div>';
+	
+	return strhtml;
 	//TODO
 }
 
@@ -441,20 +529,21 @@ $( "#legenda" ).on( "sortstop", function( event, ui ) {
  * 
  * @returns {Array}
  */
-var l1 = "/visualizacao/br2.json";
+//var l1 = "/visualizacao/br2.json";
 //var l2 = "ferro.json";
 //var feature = '';
-function createVetL() {
+function createVetL(VetRotuloKey) {
 
 	//var a = ['some','man', 'dob']; 
-	var vecl1 = createLayerVector(null, '#00558E', "#CFF09E", 'sigla', '#333', retiraQuebraLinha(document.getElementById("query").value));
+	// era 'sigla' no segundo null
+	var vecl1 = createLayerVector(null, '#00558E', "#CFF09E", [0], '#333', retiraQuebraLinha(document.getElementById("query").value));
 	//var vecl2 = createLayerVector(null, "#C02942", "#C02942", 'null','#333', 'SELECT * FROM ferrovia');
 	
 	//montarLegendaLayerbase(0);
 	
 	
-	
-	inserCamada(vecl1, '#00558E', '#CFF09E',null,document.getElementById("query").value);
+	console.log ('CreateVetL' . VetRotuloKey);
+	inserCamada(vecl1, '#00558E', '#CFF09E', VetRotuloKey  ,document.getElementById("query").value);
 	
 	//inserCamada(vecl1, '#00558E', '#CFF09E',null,'SELECT * FROM estado');
 	//inserCamada(vecl2, "#C02942", "#C02942", a,'SELECT * FROM ferrovia');

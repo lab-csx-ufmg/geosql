@@ -40,7 +40,7 @@ function arrumaschema($tableResult){
 			echo "</table>";
 			echo "<table class = 'table table-bordered' id='tabSchema'>";
 			$tableArrayAux = utf8_encode($tableArray[$i]);
-			echo "<br><br>".$tableArrayAux . "<br><tr>" ;
+			echo "<br>".$tableArrayAux . "<br><tr>" ;
 			echo "<td>".$colunArray[$i]. "</td> ";
 			//array_push($tabArray, $colunas);
 			
