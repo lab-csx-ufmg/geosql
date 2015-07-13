@@ -22,14 +22,14 @@ body .content .section.main .section-header {
 
 body .resposta{
     width: 1070px;
-    height: 570px;
+    height: 716px;
     position: relative;
     left: 200px;
     right: 206px;
     top: 25px;
     overflow: auto;
     border: 100px none #FC1919;
-    width: 82%;
+    width: 83%;
 }
 
 
@@ -149,7 +149,3 @@ margin-left: 300px;
 background-color: #61C8ED;
 }
 
-canvas[style] {
-	
-	display: visible !important;
-}

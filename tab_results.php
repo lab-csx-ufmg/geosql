@@ -8,7 +8,7 @@
 	</div>
 	
 	<div class = "salvarTabela">
-	 <button class="btn btn-default btn-block btn-lg " type="button"  aria-hidden="true"><i class ="glyphicon glyphicon-print " > </i>   Imprimir</button>
+	 <button class="btn btn-default btn-block btn-lg " type="button"  aria-hidden="true" onclick= "saveJson();"><i class ="glyphicon glyphicon-download" > </i>  JSON</button>
 	 <br>
 	 <br>
 	 <button class="btn btn-default btn-block btn-lg " type="button" onclick="saveTablePdf();"> <i class ="glyphicon glyphicon-download" > </i>  PDF</button>

@@ -210,3 +210,18 @@
     right: 11px;
 }
 
+.show {
+  display: block !important;
+}
+.hidden {
+  display: none !important;
+}
+.invisible {
+  visibility: hidden;
+}
+
+
+canvas{
+	display: block !important;
+	
+}

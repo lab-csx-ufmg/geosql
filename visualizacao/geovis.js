@@ -397,7 +397,7 @@ function geradorMenuDeRotulos(idLayer,idLayerVis, VetRotuloKey) {
 	var contElemt = VetRotuloKey.length;
 	var strhtml = '<div class="btn-group btnV">'+
 	 ' <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">'
-	   + 'Rotulos <span class="caret"></span>'+
+	   + 'Rótulo <span class="caret"></span>'+
 	  '</button>'+
 	  '<ul class="dropdown-menu">';
 	var i = 0;

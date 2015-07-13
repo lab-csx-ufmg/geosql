@@ -1,13 +1,13 @@
 <?php
 
-define ( 'bd_dns', "pgsql" );
-define ( "bd_name", "brasil" );
-define ( "bd_server", "sandwich.lbd.dcc.ufmg.br" );
-define ( "bd_user", "guilherme" );
-define ( "bd_password", "123" );
-define ( "bd_schema", "public" );
-define ( "bd_port", "54321" );
-define ( "geografico", true );
+define ( 'bd_dns', "" );
+define ( "bd_name", "" );
+define ( "bd_server", "" );
+define ( "bd_user", "" );
+define ( "bd_password", "" );
+define ( "bd_schema", "" );
+define ( "bd_port", "" );
+define ( "geografico",  );
 
 
 function getParametroBase() {

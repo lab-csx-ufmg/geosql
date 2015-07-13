@@ -35,9 +35,14 @@ function saveTableCsv(){
 	$('#Resultado').tableExport({type:'csv',escape:'false'});	
 }
 
-//Funcao responsavel por salvar a tabela da consulta em formato CSV
+//Funcao responsavel por salvar a tabela da consulta em formato txt
 function saveTableTxt(){
 	return $('#Resultado').tableExport({type:'txt',escape:'false'});
+}
+
+//Funcao responsavel por salvar a tabela da consulta em formato json
+function saveJson(){
+	return $('#Resultado').tableExport({type:'json',escape:'false'});
 }
 
 //Funcao responsavel por salvar a cosulta SQL
